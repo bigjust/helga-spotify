@@ -5,10 +5,11 @@ import requests
 from helga import log, settings
 from helga.plugins import match
 
+spotify_url = 'https://open.spotify.com/'
 spotify_pattern = re.compile(r'https://open.spotify.com/(?P<type>.*)/(?P<id>.*)')
 spotify_api_base = 'https://api.spotify.com/v1/'
-spotify_client_id = getattr(settings, 'SPOTIFY_CLIENT_ID')
-spotify_secret = getattr(settings, 'SPOTIFY_SECRET')
+spotify_client_id = getattr(settings, 'SPOTIFY_CLIENT_ID', '')
+spotify_secret = getattr(settings, 'SPOTIFY_SECRET', '')
 
 logger = log.getLogger(__name__)
 
@@ -57,7 +58,7 @@ def process_spotify_url(spotify_type, spotify_id):
         resp_json['name']
     )
 
-@match('https://open.spotify.com/(artist|album|track)/(\w+)')
+@match('{}(artist|album|track)/(\w+)'.format(spotify_url))
 def spotify(client, channel, nick, message, matches):
     match = matches[0]
     return process_spotify_url(match[0], match[1])
