@@ -60,5 +60,4 @@ def process_spotify_url(spotify_type, spotify_id):
 
 @match('{}(artist|album|track)/(\w+)'.format(spotify_url))
 def spotify(client, channel, nick, message, matches):
-    match = matches[0]
-    return process_spotify_url(match[0], match[1])
+    return process_spotify_url(*matches[0])
